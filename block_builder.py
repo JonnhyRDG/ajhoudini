@@ -3,9 +3,7 @@
 from pxr import Usd, UsdGeom, Gf
 import hou
 import json
-
 node = hou.pwd()
-
 
 class blockbuild():
     def __init__(self):
@@ -17,28 +15,25 @@ class blockbuild():
     
     def blockslist(self):
         for keys in self.cityread:
-            blockhierarchy = keys.rsplit("_",1)[0]
-            block_stage = f'P:/AndreJukebox/assets/sets/{blockhierarchy}/publish/usd/{blockhierarchy}.usd'
+            block_stage = f'P:/AndreJukebox/assets/sets/{keys}/publish/usd/{keys}.usd'
             self.stage = Usd.Stage.CreateNew(block_stage)
             group_prim_path = f'/{keys}'
             group_prim = self.stage.DefinePrim(group_prim_path,'Xform')
-            self.createRefs(blocks=keys,refsnum=len(self.cityread[keys]['assets']))
+            self.createRefs(blocks=keys)
             group_model = Usd.ModelAPI(group_prim)
             group_model.SetKind("group")
             self.stage.GetRootLayer().Save()
             # print('________DONE_________')
     
-    def createRefs(self, blocks, refsnum):    
-        iteration = 0
+    def createRefs(self, blocks):
         for buildings in self.cityread[blocks]['assets']:
             xform = (self.cityread[blocks]['assets'][buildings]['xform'])
-            assetname = buildings.rsplit("_",1)[0]
             new_building = f"/{blocks}/{buildings}"
             
             print(new_building)
 
             new_prim = self.stage.DefinePrim(new_building)
-            assetabc = (self.cityread[blocks]['assets'][buildings]['abcpath'])
+            assetabc = (self.cityread[blocks]['assets'][buildings]['usdpath'])
             new_prim.GetReferences().AddReference(assetabc)
             new_prim.SetInstanceable(True)
             building_model = Usd.ModelAPI(new_prim)

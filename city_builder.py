@@ -23,13 +23,13 @@ class blockbuild():
 
         for keys in self.cityread:
             print(keys)
-            self.createRefs(blocks=keys,refsnum=len(self.cityread[keys]))
+            self.createRefs(blocks=keys)
             
         self.stage.GetRootLayer().Save()
         
         print('________DONE_________')
     
-    def createRefs(self, blocks, refsnum):    
+    def createRefs(self, blocks):
 
         xform = (self.cityread[blocks]['xform'])
         assetname = blocks.rsplit("_",1)[0]
