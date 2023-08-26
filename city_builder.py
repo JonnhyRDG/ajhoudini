@@ -40,7 +40,7 @@ class blockbuild():
         groupusd = (self.cityread[blocks]['usdpath'])
         
         new_prim = self.stage.DefinePrim(new_block, "Xform")
-        building_prim = f'/{block_asset}_0001'
+        building_prim = f'/{block_asset}'
         
         new_prim.GetReferences().AddReference(groupusd, building_prim)
         new_prim.SetInstanceable(True)
